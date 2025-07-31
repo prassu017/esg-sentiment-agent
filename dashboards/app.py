@@ -4,7 +4,7 @@ import os
 import time
 
 # Import your pipeline functions
-from src.ingestion import fetch_esg_news_for_portfolio, calculate_market_features
+from pipeline import fetch_esg_news_for_portfolio, calculate_market_features
 from models.sentiment_model import score_news_sentiment
 from models.regression_model import run_regression
 
