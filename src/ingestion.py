@@ -6,14 +6,15 @@ import pandas as pd
 import time
 import yfinance as yf
 from datetime import datetime, timedelta
+import requests
 
+# ESG News Ingestion
 ESG_KEYWORDS = [
     "sustainability", "emissions", "diversity", "governance", "climate", "ESG",
     "carbon", "renewable", "green", "social", "responsibility", "inclusion"
 ]
-GNEWS_API_KEY = "f7f254dfc760cd3c0cf3691cd5b2f494"
+GNEWS_API_KEY = "YOUR_GNEWS_API_KEY"  # <-- Set this via Streamlit secrets or env
 GNEWS_ENDPOINT = "https://gnews.io/api/v4/search"
-
 SP500_TICKER = "^GSPC"
 VIX_TICKER = "^VIX"
 
