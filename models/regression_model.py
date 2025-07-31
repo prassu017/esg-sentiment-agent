@@ -26,10 +26,12 @@ def run_regression(input_csv="data/market_features.csv"):
     
     # Show sample of data
     print("\nSample of data (first 5 rows):")
-    print(df[["abnormal_return", "sentiment_score", "vix", "momentum"]].head())
+    print(df[["abnormal_return", "sentiment_score", "momentum"]].head())
+
     
     # Drop rows with missing values
-    df_clean = df.dropna(subset=["abnormal_return", "sentiment_score", "vix", "momentum"])
+    df_clean = df.dropna(subset=["abnormal_return", "sentiment_score", "momentum"])
+
     print(f"After dropping missing values: {len(df_clean)} observations")
     
     if len(df_clean) == 0:
