@@ -118,17 +118,18 @@ def calculate_market_features(news_csv="data/sample_news_scored.csv", output_csv
                 momentum = (stock_prices.loc[day, close_col] / stock_prices.loc[:day].iloc[-6][close_col]) - 1
             except Exception:
                 momentum = None
+            momentum_val = float(momentum) if pd.notna(momentum) and not isinstance(momentum, pd.Series) else None
             features.append({
-                "ticker": ticker,
-                "event_date": event_date,
-                "window_day": offset,
+                "date": row["date"],
+                "ticker": row["ticker"],
                 "actual_return": actual_scalar,
                 "expected_return": expected_scalar,
                 "abnormal_return": abnormal_return,
-                "momentum": float(momentum) if momentum is not None and not pd.isna(momentum) else None,
+                "momentum": momentum_val,
                 "sentiment_label": row["sentiment_label"],
-                "sentiment_score": float(row["sentiment_score"]) if not pd.isna(row["sentiment_score"]) else None,
+                "sentiment_score": float(row["sentiment_score"]) if pd.notna(row["sentiment_score"]) else None,
                 "title": row["title"]
             })
+
     features_df = pd.DataFrame(features)
     features_df.to_csv(output_csv, index=False) 
