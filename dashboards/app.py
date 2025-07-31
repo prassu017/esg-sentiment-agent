@@ -2,6 +2,11 @@ import streamlit as st
 import pandas as pd
 import os
 import time
+import sys
+
+# Add the parent directory to sys.path so Python can locate pipeline.py
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 
 # Import your pipeline functions
 from pipeline import fetch_esg_news_for_portfolio, calculate_market_features
