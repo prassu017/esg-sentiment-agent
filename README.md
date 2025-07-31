@@ -168,3 +168,19 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 **Built with ❤️ for ESG-conscious investors**
+
+```
+import os
+import pandas as pd
+import streamlit as st
+
+if os.path.exists('data/market_features.csv'):
+    df = pd.read_csv('data/market_features.csv')
+    st.header('Abnormal Returns by Sentiment Category')
+    df['sentiment_category'] = pd.cut(df['sentiment_score'], bins=[-float('inf'), 0.3, 0.7, float('inf')], labels=['Negative', 'Neutral', 'Positive'])
+    st.write(df.groupby('sentiment_category')['abnormal_return'].agg(['mean', 'std', 'count']))
+
+    st.header('Distribution of Abnormal Returns')
+    st.hist = st.pyplot()
+    df['abnormal_return'].hist(bins=30)
+    st.pyplot(st.hist)
