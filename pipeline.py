@@ -114,11 +114,16 @@ def calculate_market_features(news_csv="data/sample_news_scored.csv", output_csv
             actual_scalar = extract_scalar(actual_return)
             expected_scalar = extract_scalar(expected_return)
             abnormal_return = actual_scalar - expected_scalar if actual_scalar is not None and expected_scalar is not None else None
-            try:
-                momentum = (stock_prices.loc[day, close_col] / stock_prices.loc[:day].iloc[-6][close_col]) - 1
-            except Exception:
-                momentum = None
-            momentum_val = float(momentum) if pd.notna(momentum) and not isinstance(momentum, pd.Series) else None
+           # Handle momentum safely
+            if isinstance(momentum, pd.Series):
+                # Try to reduce to scalar if possible
+                momentum_val = momentum.item() if len(momentum) == 1 else None
+            elif pd.notna(momentum):
+                momentum_val = float(momentum)
+            else:
+                momentum_val = None
+
+            # Append processed features
             features.append({
                 "date": row["date"],
                 "ticker": row["ticker"],
@@ -130,6 +135,5 @@ def calculate_market_features(news_csv="data/sample_news_scored.csv", output_csv
                 "sentiment_score": float(row["sentiment_score"]) if pd.notna(row["sentiment_score"]) else None,
                 "title": row["title"]
             })
-
     features_df = pd.DataFrame(features)
     features_df.to_csv(output_csv, index=False) 
